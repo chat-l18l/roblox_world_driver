@@ -114,15 +114,45 @@ hetzelfde versienummer als in de commit.
 
 ## Definition of done voor M0
 
-- [ ] `archive/grok` tag en branch staan op GitHub
-- [ ] `main` bevat alleen het Roblox-project, `docs/` en `AGENTS.md`
-- [ ] Verse clone: `rokit install` -> `rojo build` -> place opent gevuld in Studio
+Stand van zaken op 2026-08-24.
+
+- [x] `archive/grok` tag en `archive/grok-main` branch staan op GitHub
+      (allebei op `8ccf8c1`; een tag en een branch mogen niet dezelfde naam
+      hebben, vandaar het achtervoegsel)
+- [x] `main` bevat alleen het Roblox-project, `docs/`, `tools/`, `tests/` en
+      `AGENTS.md` — 274 bestanden van de web-app verwijderd
+- [x] Structuur staat: `src/shared/core/` puur, `src/server/`, `src/client/`,
+      `tools/check_pure_core.py`, `tools/run_tests.luau`
+- [x] Lokale poorten groen: 8 unit-tests, stylua, selene (twee configs),
+      pure-kern-check, `rojo build` -> 5602 bytes
+- [x] CI groen op `main`: run 32672631294, elf stappen, 8 seconden
+- [x] `.rbxl`-artifact downloadbaar uit de CI-run (`Wereldpost-rbxl`, 30 dagen)
+- [ ] Place opent gevuld in Studio via **File -> Open** op `build\Wereldpost.rbxl`,
+      met het versielabel in beeld
 - [ ] `rojo serve` + Connect: wijziging zichtbaar binnen een seconde
-- [ ] Studio MCP verbonden; ik kan Play draaien en de console lezen
-- [ ] Alle CI-poorten groen op een pull request
-- [ ] `.rbxl`-artifact downloadbaar uit de CI-run
+- [ ] Studio MCP verbonden; Play draaien en console lezen vanuit Claude Code
+- [ ] Twee privé-places aangemaakt, universe- en place-id's genoteerd
+- [ ] `ROBLOX_API_KEY` in GitHub Secrets, vier id's als repo-variabelen
+- [ ] Deploy-stap toegevoegd aan `ci.yml` en bewezen
 - [ ] Test-place draait de build van `main`, met zichtbaar versienummer
 - [ ] Speelbaar geopend op een tablet
 - [ ] `README.md` klopt: iemand anders komt er zonder hulp doorheen
 
-Pas als dit lijstje af is, beginnen we aan M1.
+### Openstaand technisch besluit voor M1
+
+`src/shared/core/` moet zowel in Roblox als onder Lune laadbaar zijn, en die twee
+hebben verschillende require-semantiek: Roblox doet `require(instance)`, Lune doet
+`require("./pad")`. In M0 speelt dat nog niet, want `Contract` en `Types` hebben geen
+onderlinge afhankelijkheden. Zodra `Fsm` straks `Contract` nodig heeft, moet dit
+opgelost zijn.
+
+Kandidaten, te beoordelen in een korte spike aan het begin van M1:
+
+1. `.luaurc`-aliassen plus require-by-string, als Studio dat betrouwbaar ondersteunt.
+2. Afhankelijkheden als parameter meegeven in plaats van importeren — past bij de
+   Hintjens-stijl, maar wordt omslachtig voor iets als `Contract`.
+3. Een laadschil in de testrunner die een `script`-achtig object namaakt.
+
+Niet vooruitlopen: eerst meten wat Studio nu echt doet.
+
+Pas als het lijstje hierboven af is, beginnen we aan M1.
