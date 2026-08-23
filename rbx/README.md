@@ -47,14 +47,23 @@ Plugin-install mag ook later: in Studio, Plugins-map, of `rojo plugin install` n
 
 ### 3. Elke sessie
 
-```powershell
-cd pad\naar\roblox_world_driver\rbx
-.\serve.ps1
-```
+`rojo serve` in `rbx/` laten draaien. Studio: **File → New**, Rojo-plugin → **Connect** → **Accept**.
 
-of gewoon `rojo serve`.
+Accept vult de Explorer (scripts). De 3D-wereld (vloer, bus, DOEL) bestaat pas als je **Play** doet (groene knop, of F5). Dat is geen bug: we spawnen die parts in Lua, niet als place-file.
 
-Studio: **File → New**, Rojo-plugin → **Connect** (poort 34872). Play.
+Check na Accept, vóór Play: **View → Explorer**
+
+- `ReplicatedStorage` → `Shared` → `Sim` → `Vehicle`
+- `ServerScriptService` → `Server`
+- `StarterPlayer` → `StarterPlayerScripts` → `Client`
+
+Zie je die drie: Accept is gelukt. Daarna Play. `rojo serve` moet open blijven.
+
+Explorer nog leeg na Accept:
+
+1. **View → Output** — rode regels van Rojo.
+2. **Home → Game Settings → Security → Allow HTTP Requests**.
+3. Plugins beheren → Rojo → **Script Injection** aan. Studio herstarten, opnieuw Connect.
 
 Je ziet een zandkleurige vloer, een donker busje, een rood DOEL. WASD. A draait de neus naar links op het scherm.
 
@@ -64,7 +73,7 @@ Publiceren (kinderen) pas als Play lokaal klopt: Studio → File → Publish to 
 
 ## Geen WSL
 
-Studio draait op Windows, niet in Linux. Rojo in WSL praten met Studio op Windows is extra gedoe (localhost, plugin-pad). Blijf in PowerShell.
+Studio draait op Windows, niet in Linux. Rojo in WSL praten met Studio op Windows is extra gedoe (localhost, plugin-pad). Blijf in PowerShell of Git Bash, zolang `rojo` op PATH staat.
 
 VS Code mag: extensie “Rojo - Roblox Studio Sync” gebruikt dezelfde `rojo` op je PATH. De CLI-route hierboven is genoeg.
 

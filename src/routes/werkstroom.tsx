@@ -107,9 +107,11 @@ rojo serve`}</pre>
           <em>nieuw</em> venster — PATH is pas dan bijgewerkt.
         </p>
         <p className="mt-3 text-[17px] leading-relaxed">
-          Studio: File → New, Rojo-plugin → Connect. Play. Je ziet een vloer, een
-          busje, een stempel-doel. WASD: A is links. Dat is slice 1 — bewegen —
-          niet de hele wereldkaart.
+          Studio: File → New, Rojo-plugin → Connect → Accept. Accept vult de
+          Explorer (scripts), niet de 3D-viewport. Daarna{" "}
+          <strong>Play</strong> (F5). Pas dan spawn het server-script vloer, bus
+          en DOEL. WASD: A is links. Dat is slice 1 — bewegen — niet de hele
+          wereldkaart.
         </p>
         <p className="mt-3 text-[17px] leading-relaxed">
           Publiceren naar Roblox (kinderen) pas als Play lokaal klopt: Studio →
