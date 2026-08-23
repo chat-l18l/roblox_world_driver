@@ -81,27 +81,35 @@ Studio   →  File → Publish        (Roblox, kinderen)`}</pre>
       </section>
 
       <section className="mt-12">
-        <h2 className="font-display text-2xl tracking-tight">Eerste keer op de pc</h2>
+        <h2 className="font-display text-2xl tracking-tight">Eerste keer op de pc (Windows 11)</h2>
         <p className="mt-3 text-[17px] leading-relaxed">
-          Eenmalig: Roblox Studio, Git,{" "}
-          <a
-            className="text-accent underline-offset-2 hover:underline"
-            href="https://github.com/rojo-rbx/rokit"
-          >
-            Rokit
-          </a>
-          , en de Rojo-plugin in Studio. Daarna, in de map{" "}
-          <span className="font-mono text-sm">rbx/</span>:
+          Roblox Studio en Git eerst. Rokit en Rojo zitten <em>niet</em> in de clone —
+          Rokit is een toolchain-manager. Installeer die in{" "}
+          <strong>PowerShell</strong>, niet Git Bash, niet WSL. Studio draait op
+          Windows; Rojo in WSL is extra gedoe.
         </p>
-        <pre className="mt-4 overflow-x-auto rounded-[var(--radius-md)] border border-border bg-surface p-4 font-mono text-xs leading-relaxed">{`git clone https://github.com/chat-l18l/roblox_world_driver.git
-cd roblox_world_driver/rbx
+        <p className="mt-3 text-[17px] leading-relaxed">
+          Eenmalig, in PowerShell:
+        </p>
+        <pre className="mt-4 overflow-x-auto rounded-[var(--radius-md)] border border-border bg-surface p-4 font-mono text-xs leading-relaxed">{`Invoke-RestMethod https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.ps1 | Invoke-Expression
+# nieuw PowerShell-venster, daarna:
+cd pad\\naar\\roblox_world_driver\\rbx
 rokit install
-rojo plugin install          # of: rbxm in Studio-pluginsmap
+rojo plugin install
 rojo serve`}</pre>
         <p className="mt-3 text-[17px] leading-relaxed">
-          In Studio: leeg place, HttpService aan, Rojo-plugin → Connect. Play. Je
-          ziet een vloer, een busje, een stempel-doel. WASD: A is links. Dat is
-          slice 1 — bewegen — niet de hele wereldkaart.
+          Als het install-script geblokkeerd wordt:{" "}
+          <span className="font-mono text-sm">
+            Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+          </span>
+          . Daarna hetzelfde commando. Check met{" "}
+          <span className="font-mono text-sm">rokit --version</span> in een{" "}
+          <em>nieuw</em> venster — PATH is pas dan bijgewerkt.
+        </p>
+        <p className="mt-3 text-[17px] leading-relaxed">
+          Studio: File → New, Rojo-plugin → Connect. Play. Je ziet een vloer, een
+          busje, een stempel-doel. WASD: A is links. Dat is slice 1 — bewegen —
+          niet de hele wereldkaart.
         </p>
         <p className="mt-3 text-[17px] leading-relaxed">
           Publiceren naar Roblox (kinderen) pas als Play lokaal klopt: Studio →

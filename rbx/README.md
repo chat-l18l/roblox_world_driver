@@ -4,35 +4,69 @@ Kaal skelet: vloer, bus, doel, WASD. A = links onder chase-cam. Geen quiz, geen 
 
 De sessie-machine leeft nog in `../src/sim` (TypeScript). Port die pas in slice 2. Bouw geen tweede waarheid in Studio-scripts.
 
-## Eenmalig op de werk-pc
+## Eenmalig op Windows 11
 
-1. [Roblox Studio](https://create.roblox.com)
-2. Git
-3. [Rokit](https://github.com/rojo-rbx/rokit#installation)
+Roblox Studio en Git heb je al. **Rokit en Rojo zitten niet in de clone** — Rokit is een toolchain-manager, zoals rustup. Installeer die eerst, in **PowerShell** (niet Git Bash, niet WSL).
 
-```sh
-git clone https://github.com/chat-l18l/roblox_world_driver.git
-cd roblox_world_driver/rbx
+### 1. Rokit zelf
+
+In PowerShell:
+
+```powershell
+Invoke-RestMethod https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.ps1 | Invoke-Expression
+```
+
+Als het script geblokkeerd wordt:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+en daarna hetzelfde `Invoke-RestMethod`-commando opnieuw.
+
+Alternatief: download `rokit.exe` van [Rokit releases](https://github.com/rojo-rbx/rokit/releases/latest), dubbelklik in Explorer (dat triggert `self-install`). Vanuit de terminal: `.\rokit.exe self-install`.
+
+**Sluit PowerShell helemaal en open een nieuw venster.** Anders kent Windows `rokit` nog niet (PATH). Check:
+
+```powershell
+rokit --version
+```
+
+### 2. Rojo uit deze repo
+
+```powershell
+cd pad\naar\roblox_world_driver\rbx
 rokit install
+rojo --version
 rojo plugin install
 ```
 
-Windows (PowerShell): zelfde commando's als `rbx` in PATH zit na Rokit.
+`rokit.toml` in deze map pinned Rojo al. `rokit add` is niet nodig.
 
-## Elke sessie
+Plugin-install mag ook later: in Studio, Plugins-map, of `rojo plugin install` nog eens.
 
-```sh
-cd rbx
-rojo serve
+### 3. Elke sessie
+
+```powershell
+cd pad\naar\roblox_world_driver\rbx
+.\serve.ps1
 ```
 
-Studio: **File → New**, Rojo-plugin → **Connect**. Play.
+of gewoon `rojo serve`.
+
+Studio: **File → New**, Rojo-plugin → **Connect** (poort 34872). Play.
 
 Je ziet een zandkleurige vloer, een donker busje, een rood DOEL. WASD. A draait de neus naar links op het scherm.
 
 Niet committen: `.rbxl`, Studio-cache. Bron is `src/`.
 
 Publiceren (kinderen) pas als Play lokaal klopt: Studio → File → Publish to Roblox.
+
+## Geen WSL
+
+Studio draait op Windows, niet in Linux. Rojo in WSL praten met Studio op Windows is extra gedoe (localhost, plugin-pad). Blijf in PowerShell.
+
+VS Code mag: extensie “Rojo - Roblox Studio Sync” gebruikt dezelfde `rojo` op je PATH. De CLI-route hierboven is genoeg.
 
 ## Slices
 
