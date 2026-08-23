@@ -7,7 +7,6 @@
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 
--- New Studio places stream parts. No character ⇒ no focus ⇒ client never sees Van.
 workspace.StreamingEnabled = false
 Players.CharacterAutoLoads = false
 
@@ -16,6 +15,17 @@ Lighting.Brightness = 2.2
 Lighting.ClockTime = 14.5
 Lighting.GeographicLatitude = 52
 Lighting.OutdoorAmbient = Color3.fromRGB(140, 138, 132)
+
+for _, name in { "Baseplate", "SpawnLocation" } do
+	local inst = workspace:FindFirstChild(name)
+	if inst then
+		inst:Destroy()
+	end
+end
+local leftoverSpawn = workspace:FindFirstChildOfClass("SpawnLocation")
+if leftoverSpawn then
+	leftoverSpawn:Destroy()
+end
 
 local existing = workspace:FindFirstChild("Wereldpost")
 if existing then
@@ -39,7 +49,6 @@ local function block(name: string, size: Vector3, cframe: CFrame, color: Color3)
 	return p
 end
 
--- land / accent / stamp — same palette as the web prototype
 block("Floor", Vector3.new(240, 2, 240), CFrame.new(0, -1, 0), Color3.fromRGB(217, 208, 190))
 local van = block("Van", Vector3.new(6, 3, 10), CFrame.new(0, 1.5, 0), Color3.fromRGB(58, 83, 102))
 
@@ -65,12 +74,18 @@ label.Parent = billboard
 root:SetAttribute("Ready", true)
 root.Parent = workspace
 
-local function focus(player: Player)
+local function hookPlayer(player: Player)
 	player.ReplicationFocus = van
+	player.CharacterAdded:Connect(function(character)
+		character:Destroy()
+	end)
+	if player.Character then
+		player.Character:Destroy()
+	end
 end
 for _, player in Players:GetPlayers() do
-	focus(player)
+	hookPlayer(player)
 end
-Players.PlayerAdded:Connect(focus)
+Players.PlayerAdded:Connect(hookPlayer)
 
 print("[Wereldpost] slice 1 — vloer, bus, doel. Play, WASD, A = links.")

@@ -14,6 +14,7 @@ local Vehicle = require(Shared:WaitForChild("Sim"):WaitForChild("Vehicle"))
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+local playerScripts = player:WaitForChild("PlayerScripts")
 
 local root = workspace:WaitForChild("Wereldpost")
 if root:GetAttribute("Ready") ~= true then
@@ -21,7 +22,7 @@ if root:GetAttribute("Ready") ~= true then
 end
 local found = root:WaitForChild("Van", 15)
 if found == nil or not found:IsA("BasePart") then
-	error("[Wereldpost] Van ontbreekt na sync. StreamingEnabled uit? git pull + Play opnieuw.")
+	error("[Wereldpost] Van ontbreekt na sync. git pull, rojo serve herstarten, Connect, Play.")
 end
 local van = found :: BasePart
 
@@ -46,7 +47,6 @@ local function readInput(): Vehicle.DriveInput
 	if held(Enum.KeyCode.S) or held(Enum.KeyCode.Down) then
 		throttle -= 1
 	end
-	-- +1 left, -1 right — do not invert
 	if held(Enum.KeyCode.A) or held(Enum.KeyCode.Left) then
 		steer += 1
 	end
@@ -68,6 +68,21 @@ end)
 UserInputService.InputEnded:Connect(function(input: InputObject)
 	if input.UserInputType == Enum.UserInputType.Keyboard then
 		keys[input.KeyCode] = false
+	end
+end)
+
+task.defer(function()
+	local module = playerScripts:FindFirstChild("PlayerModule")
+	if module and module:IsA("ModuleScript") then
+		local ok, playerModule = pcall(require, module)
+		if ok and playerModule then
+			pcall(function()
+				playerModule:GetControls():Disable()
+			end)
+			pcall(function()
+				playerModule:GetCameras():SetTransition('Immediate')
+			end)
+		end
 	end
 end)
 
@@ -95,9 +110,10 @@ corner.CornerRadius = UDim.new(0, 8)
 corner.Parent = chip
 
 local cam = workspace.CurrentCamera
-cam.CameraType = Enum.CameraType.Scriptable
 
 local function placeCam()
+	cam.CameraType = Enum.CameraType.Scriptable
+	cam.CameraSubject = van
 	local fwd = Vehicle.forward(state.yaw)
 	local vanPos = Vector3.new(state.x, VAN_Y, state.z)
 	local desired = vanPos + Vector3.new(0, CAM_HEIGHT, 0) + fwd * (-CAM_DIST)
@@ -106,7 +122,9 @@ end
 
 placeCam()
 
-RunService.RenderStepped:Connect(function(dt: number)
+-- After Roblox's own camera (character cam), otherwise the avatar wins.
+local CAMERA_PRIORITY = Enum.RenderPriority.Camera.Value + 10
+RunService:BindToRenderStep("WereldpostCam", CAMERA_PRIORITY, function(dt: number)
 	state = Vehicle.step(state, readInput(), dt)
 	van.CFrame = Vehicle.cframeAt(state, VAN_Y)
 	placeCam()
