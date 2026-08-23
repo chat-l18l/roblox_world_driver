@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AtelierRouteImport } from './routes/atelier'
 import { Route as LeerlijnRouteImport } from './routes/leerlijn'
 import { Route as SpeelRouteImport } from './routes/speel'
+import { Route as WerkstroomRouteImport } from './routes/werkstroom'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const SpeelRoute = SpeelRouteImport.update({
   path: '/speel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WerkstroomRoute = WerkstroomRouteImport.update({
+  id: '/werkstroom',
+  path: '/werkstroom',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/atelier': typeof AtelierRoute
   '/leerlijn': typeof LeerlijnRoute
   '/speel': typeof SpeelRoute
+  '/werkstroom': typeof WerkstroomRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/atelier': typeof AtelierRoute
   '/leerlijn': typeof LeerlijnRoute
   '/speel': typeof SpeelRoute
+  '/werkstroom': typeof WerkstroomRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/atelier': typeof AtelierRoute
   '/leerlijn': typeof LeerlijnRoute
   '/speel': typeof SpeelRoute
+  '/werkstroom': typeof WerkstroomRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/atelier' | '/leerlijn' | '/speel'
+  fullPaths: '/' | '/atelier' | '/leerlijn' | '/speel' | '/werkstroom'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/atelier' | '/leerlijn' | '/speel'
-  id: '__root__' | '/' | '/atelier' | '/leerlijn' | '/speel'
+  to: '/' | '/atelier' | '/leerlijn' | '/speel' | '/werkstroom'
+  id: '__root__' | '/' | '/atelier' | '/leerlijn' | '/speel' | '/werkstroom'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AtelierRoute: typeof AtelierRoute
   LeerlijnRoute: typeof LeerlijnRoute
   SpeelRoute: typeof SpeelRoute
+  WerkstroomRoute: typeof WerkstroomRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpeelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/werkstroom': {
+      id: '/werkstroom'
+      path: '/werkstroom'
+      fullPath: '/werkstroom'
+      preLoaderRoute: typeof WerkstroomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AtelierRoute: AtelierRoute,
   LeerlijnRoute: LeerlijnRoute,
   SpeelRoute: SpeelRoute,
+  WerkstroomRoute: WerkstroomRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

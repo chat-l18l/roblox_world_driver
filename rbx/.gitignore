@@ -1,0 +1,9 @@
+sourcemap.json
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+Packages/
+*.lock.json
+.DS_Store
+Thumbs.db

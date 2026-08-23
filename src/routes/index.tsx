@@ -29,6 +29,9 @@ function Home() {
         <Button asChild variant="outline">
           <Link to="/atelier">Bouwplan & Git/Rojo</Link>
         </Button>
+        <Button asChild variant="outline">
+          <Link to="/werkstroom">Werk-pc / Rojo</Link>
+        </Button>
       </div>
 
       <div className="mt-14 grid gap-4 md:grid-cols-3">

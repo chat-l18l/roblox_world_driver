@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, Compass, GitBranch, Truck } from "lucide-react";
+import { BookOpen, Compass, GitBranch, Monitor, Truck } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils.ts";
 
@@ -8,6 +8,7 @@ const NAV = [
   { to: "/speel", label: "Rijden", icon: Truck },
   { to: "/leerlijn", label: "Leerlijn", icon: BookOpen },
   { to: "/atelier", label: "Atelier", icon: GitBranch },
+  { to: "/werkstroom", label: "Werk", icon: Monitor },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -54,7 +55,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </p>
         </footer>
       )}
-      <nav className="sticky bottom-0 z-30 grid grid-cols-4 border-t border-border bg-bg/95 sm:hidden">
+      <nav className="sticky bottom-0 z-30 grid grid-cols-5 border-t border-border bg-bg/95 sm:hidden">
         {NAV.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.to;
