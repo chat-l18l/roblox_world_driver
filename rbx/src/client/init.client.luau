@@ -108,5 +108,3 @@ RunService:BindToRenderStep("WereldpostCam", CAMERA_PRIORITY, function()
 	driveRemote:FireServer(input.throttle, input.steer)
 	placeCam()
 end)
-
-placeCam()
