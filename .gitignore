@@ -1,5 +1,18 @@
-node_modules/
-.project_id
-.github_repo
+# Bouwartefacten. Bron is src/ en default.project.json; het place-bestand niet.
+build/
+*.rbxl
+*.rbxlx
+*.rbxl.lock
+
+# Ruwe geo-bronbestanden: groot en reproduceerbaar via tools/geo/fetch.py.
+# Wat het spel gebruikt, staat gegenereerd in src/shared/data/ en wordt wel gecommit.
+data/raw/
+
+# Studio- en editor-rommel
+*.rbxmx.lock
+.vscode/
+.idea/
+
+# Geheimen horen in GitHub Secrets, nooit hier.
 .env
 .env.*

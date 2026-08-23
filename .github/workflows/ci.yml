@@ -1,0 +1,66 @@
+name: CI
+
+# Elke stap is een poort. Faalt er een, dan stopt het en komt er geen build.
+# Volgorde en motivatie: docs/04-testen-en-ci.md.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  # De Open Cloud Luau Execution API staat maar twee gelijktijdige aanvragen per
+  # universe toe. Deze groep voorkomt dat twee runs elkaar verdringen.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain installeren (gepind in rokit.toml)
+        uses: CompeyDev/setup-rokit@v0.1.2
+        with:
+          cache: true
+
+      - name: Pure kern bewaken
+        run: python3 tools/check_pure_core.py
+
+      - name: Opmaak
+        run: stylua --check .
+
+      - name: Lint (Roblox-code)
+        run: selene .
+
+      - name: Lint (Lune-code)
+        run: selene --config selene-lune.toml tests tools
+
+      - name: Unit-tests
+        run: lune run tools/run_tests.luau
+
+      - name: Versie stempelen
+        # Zo zie je in de place welke commit je speelt. Lokaal blijft dit "dev".
+        run: |
+          cat > src/shared/Version.luau <<EOF
+          --!strict
+          -- Gegenereerd door CI. Niet met de hand bewerken.
+          return {
+          	commit = "$(git rev-parse --short HEAD)",
+          	builtAt = "$(date -u +%Y-%m-%dT%H:%MZ)",
+          }
+          EOF
+
+      - name: Place bouwen
+        run: rojo build default.project.json --output Wereldpost.rbxl
+
+      - name: Place bewaren als artifact
+        # Vangnet: ook als een latere stap faalt, kun je dit bestand downloaden
+        # en lokaal in Studio openen.
+        uses: actions/upload-artifact@v4
+        with:
+          name: Wereldpost-rbxl
+          path: Wereldpost.rbxl
+          retention-days: 30

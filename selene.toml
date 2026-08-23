@@ -1,0 +1,7 @@
+# Lint voor de code die in Roblox draait.
+std = "roblox"
+
+# tests/ en tools/ draaien onder Lune, niet in Roblox. Daar geldt require("./pad")
+# in plaats van require(instance), wat de roblox-std terecht als fout ziet.
+# Die mappen worden apart gelint met selene-lune.toml.
+exclude = ["tests/**", "tools/**"]
