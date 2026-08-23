@@ -43,6 +43,19 @@ Dit is de diagnose van de Grok-poging, zodat we dezelfde val niet opnieuw inlope
 | De voorgeschreven Studio-workflow is `File -> New` + Connect + Accept, waarna de wereld pas bij **Play** in Lua ontstaat | Na Accept lijkt Studio leeg. Dat voelt als "het werkt niet", en er is geen place-bestand om op terug te vallen |
 | `AGENTS.md` (18 KB) beschrijft Groks sandbox-contract, niet jouw project | Elke agent die de repo leest krijgt het verkeerde mentale model |
 
+**Nauwkeurigheidsnoot.** De diagnose hierboven is gesteld op commit `53ae1d6`. Er is
+daarna nog één commit op `main` gekomen, `8ccf8c1`, die het lege-Explorer-symptoom
+wél aanpakt: vloer, busje en doel staan daar als letterlijke parts in
+`default.project.json`, dus ze verschijnen meteen na Connect. Dat is een geldige
+Rojo-techniek en een terechte verbetering.
+
+Het verandert de conclusie niet, om twee redenen. De structurele problemen — een
+web-app als repo, spellogica in twee talen, `.grok/` als ballast — staan er
+ongewijzigd. En de vorm klopt niet voor waar we heen gaan: wereldgeometrie hoort bij
+ons niet handgeschreven in het projectbestand, maar komt uit `Board.plan()` op basis
+van geodata. Parts in `default.project.json` werkt voor één vloer en houdt op bij
+vijf regioborden.
+
 **Wat wél werkte, en geverifieerd is op deze pc (2026-08-23):**
 
 - Rokit 1.2.0 staat in `C:\Users\panda\.rokit\bin` en staat in je user-PATH.
