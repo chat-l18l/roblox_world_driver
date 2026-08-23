@@ -91,15 +91,78 @@ bedoeling per veld die niet uit de naam blijkt.
     name = "Duitsland",
     nameLocal = "Deutschland",
     capital = "de-berlin",
+    governmentSeat = "de-berlin",
+    capitalNote = nil,
     languages = { "Duits" },
     currency = "EUR",
     continent = "europa",
     neighbours = { "nl", "be", "fr", "ch", "at", "cz", "pl", "dk", "lu" },
     flagColors = { "#000000", "#DD0000", "#FFCE00" },
+    areaKm2 = { total = 357592, land = 348560, year = 2023, source = "destatis" },
+    population = { value = 83600000, year = 2025, source = "wikidata" },
 }
 ```
 
 `neighbours` is leerstof én hint-materiaal ("dit land grenst aan Nederland").
+
+**`capital` en `governmentSeat` zijn bewust twee velden.** Nederland is het
+duidelijkste geval: de hoofdstad is Amsterdam, maar de regering, de Staten-Generaal
+en de koning werken in Den Haag.
+
+```lua
+capital        = "nl-amsterdam",
+governmentSeat = "nl-den-haag",
+capitalNote    = "De hoofdstad is Amsterdam, maar de regering, het parlement en "
+              .. "de koning werken in Den Haag.",
+```
+
+Zonder die splitsing krijg je stilzwijgend foute weetjes. Andere landen met dezelfde
+nuance: Bolivia (Sucre grondwettelijk, La Paz in de praktijk), Zuid-Afrika (drie
+hoofdsteden), Zwitserland (Bern is "federale stad", formeel geen hoofdstad),
+Tanzania, Benin, Ivoorkust, Myanmar. `validate.py` waarschuwt als een land in die
+lijst geen `capitalNote` heeft.
+
+### Landmark
+
+Herkenningspunten per stad of land. Ontwerp en catalogus staan in
+[07-landmarks-en-weetjes.md](07-landmarks-en-weetjes.md); hier alleen het schema.
+
+```lua
+{
+    id = "fr-paris-eiffeltoren",
+    name = "Eiffeltoren",
+    nameLocal = "Tour Eiffel",
+    place = "fr-paris",
+    country = "fr",
+    kind = "toren",              -- toren | gebouw | brug | monument | natuur | waterwerk
+    heightM = 330,
+    builtYear = 1889,
+    model = "parts:eiffel",      -- of "asset:landmarks/sagrada.rbxmx"
+    silhouette = "eiffel",       -- 2D-icoon voor kaart en weetjesboek
+    rightsNote = "Eigen gestileerde vorm; bouwwerk uit 1889, panoramavrijheid in FR.",
+    facts = { ... },             -- zie Fact
+}
+```
+
+`heightM` is de echte hoogte en wordt **niet** gebruikt als bouwmaat — landmarks
+worden op een vaste hoogteband gerenderd zodat ze op elk bord leesbaar zijn (zie
+[ADR-0005](adr/0005-landmarks-als-bouwlijst.md)). `heightM` bepaalt alleen de
+onderlinge verhouding, en is zelf een weetje.
+
+### Fact
+
+```lua
+{
+    text = "De Eiffeltoren was bij de bouw in 1889 het hoogste bouwwerk ter wereld.",
+    level = 3,                   -- 1 = kijken, 2 = kerncijfers, 3 = doorlezen
+    source = "wikidata:Q243",
+    year = 2025,
+}
+```
+
+`source` en `year` zijn verplicht op niveau 2 en 3 en worden ook echt getoond. Een
+kind dat leert dat cijfers een herkomst en een datum hebben, leert iets dat langer
+meegaat dan de topografie zelf.
 
 ### River
 
@@ -168,7 +231,35 @@ kaart die op school hangt er ook zo uitziet.
 
 ---
 
-## 4. Waar de speler-data leeft
+## 4. Cijfers: één definitie, met herkomst en jaartal
+
+Zodra je oppervlaktes en inwonertallen toont, en er verhoudingen mee uitrekent, wordt
+de *definitie* van het cijfer belangrijker dan het cijfer zelf.
+
+| | Totaal (incl. binnenwater) | Alleen land |
+|---|---|---|
+| Nederland | 41.543 km² | 33.720 km² |
+| Duitsland | 357.592 km² | 348.560 km² |
+| **Duitsland ten opzichte van Nederland** | **8,6 ×** | **10,3 ×** |
+
+Allebei waar, en het scheelt bijna twee hele Nederlanden. Voor Nederland is het
+verschil extra groot omdat bijna een vijfde van het land water is — wat zelf een van
+de betere weetjes over Nederland is.
+
+**Harde regels:**
+
+1. Elk getal draagt zijn definitie mee. `areaKm2` heeft `total` én `land`; er is geen
+   veld dat "de oppervlakte" heet.
+2. `Compare` rekent nooit met twee verschillende definities. Een unit-test dwingt dat
+   af, want dit is bij uitstek een fout die niemand ooit terugvindt.
+3. Elk getal heeft `year` en `source`. Cijfers verouderen; een weetje zonder jaartal
+   wordt op termijn een onwaarheid.
+4. Wat het spel toont, vermeldt welke definitie is gebruikt ("inclusief binnenwater").
+5. Getallen staan **nooit in prozateksten** in de data. Ze staan als getal in het
+   schema en de zin wordt eromheen gebouwd door `Compare`. Anders moet je bij elke
+   dataverversing honderd zinnen nalopen.
+
+## 5. Waar de speler-data leeft
 
 `Profile` (zie `Types.luau`) gaat in **DataStore**, sleutel `profile_<userId>`,
 met `schemaVersion`. Regels:
@@ -183,7 +274,7 @@ met `schemaVersion`. Regels:
 
 ---
 
-## 5. Adressen: hoe echt moet het zijn
+## 6. Adressen: hoe echt moet het zijn
 
 Per moeilijkheidsniveau verschilt hoeveel adres je nodig hebt.
 

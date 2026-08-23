@@ -32,6 +32,8 @@ roblox_world_driver/
 │   └── run_tests.luau             Lune-entrypoint voor de unit-tests
 │
 ├── assets/                        handgebouwde 3D-content, geexporteerd uit Studio
+│   ├── landmarks/*.rbxmx          alleen als parts echt tekortschieten (ADR-0005)
+│   ├── MANIFEST.md                naam -> asset-id voor alles wat in de cloud staat
 │   └── *.rbxmx                    gecommit, gemount via $path in default.project.json
 │
 ├── src/
@@ -45,6 +47,9 @@ roblox_world_driver/
 │   │   │   ├── Mastery.luau       Leitner-doosjes, spaced repetition
 │   │   │   ├── Economy.luau       beloning, prijzen, voertuig-ontgrendeling
 │   │   │   ├── Board.luau         regio -> bouwlijst (pure data)
+│   │   │   ├── Compare.luau       verhoudingen tussen landen, als zin ("8,6 keer")
+│   │   │   ├── landmarks/         één bouwlijst per landmark, pure data
+│   │   │   │   ├── Evoluon.luau  Euromast.luau  Eiffel.luau  ...
 │   │   │   ├── Geo.luau           haversine, peiling, projectie lat/lon -> studs
 │   │   │   ├── Rng.luau           seedbare PRNG (deterministisch, testbaar)
 │   │   │   └── Types.luau         alle gedeelde typedefinities
@@ -327,9 +332,11 @@ Twijfel je waar iets thuishoort, gebruik deze tabel.
 | De code ... | hoort in |
 |---|---|
 | berekent een beloning, kiest een missie, bepaalt of een adres klopt | `shared/core/` |
+| beschrijft de vorm van de Eiffeltoren in parts | `shared/core/landmarks/` |
+| formuleert "8,6 keer zo groot als Nederland" | `shared/core/Compare.luau` |
 | maakt een `Part`, luistert op `Touched`, schrijft naar DataStore | `server/services/` |
 | tekent een label, leest een toetsaanslag, animeert een pin | `client/` |
-| is een lijst steden, landen, prijzen | `shared/data/` (gegenereerd) |
+| is een lijst steden, landen, prijzen, inwonertallen, weetjes | `shared/data/` (gegenereerd) |
 | is een handgebouwd 3D-model | `assets/*.rbxmx` |
 | is een eenmalig conversieprogramma | `tools/` |
 

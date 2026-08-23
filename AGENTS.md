@@ -100,6 +100,10 @@ dan is de Explorer leeg en lijkt het kapot. Daarna Rojo-plugin -> Connect.
 - Een architectuurkeuze leg je vast als ADR in `docs/adr/`, genummerd, niet
   achteraf herschreven.
 - Balansgetallen horen in `src/shared/data/`, niet in code.
+- Landmarks zijn pure bouwlijsten in `src/shared/core/landmarks/`, maximaal 40 parts,
+  nooit een Toolbox-asset. Zie [ADR-0005](docs/adr/0005-landmarks-als-bouwlijst.md).
+- Elk feitelijk getal draagt `year` en `source`, en oppervlaktes hebben altijd zowel
+  `total` als `land`. Meng die twee nooit in een vergelijking.
 - Geen chat, geen vrije tekstinvoer, geen persoonsgegevens. In DataStore alleen
   `UserId` als sleutel plus getallen en id's.
 - Bij twijfel waar iets hoort: zie de beslistabel onderaan

@@ -43,6 +43,17 @@ Wat hier getest wordt:
   tolerantie); projectie is omkeerbaar binnen de bordbounds.
 - **Board.** `Board.plan()` geeft voor elke regio een bouwlijst binnen het
   part-budget, met elke plaats binnen de bordgrenzen.
+- **Landmarks.** Elke bouwlijst blijft binnen 40 parts, valt binnen de toegestane
+  hoogteband, heeft geen part onder de grond, gebruikt alleen kleuren uit het palet,
+  en verwijst naar een bestaande `Place`. Elk land in het spel heeft minstens één
+  landmark.
+- **Compare.** De verhouding gebruikt aan beide kanten dezelfde oppervlaktedefinitie
+  — Duitsland tegen Nederland is 8,6× op totaal en 10,3× op land, en die mogen nooit
+  door elkaar lopen. Verder: geen zin bevat "keer zo klein", een verhouding onder 1
+  wordt omgedraaid naar "past x keer in", en tussen 0,9 en 1,1 komt er "ongeveer even
+  groot" uit.
+- **Feiten.** Elk feit op niveau 2 of 3 heeft `source` en `year`. Geen enkel
+  dataveld bevat een getal dat al in proza is gegoten.
 - **Schema.** Elk gegenereerd data-bestand voldoet aan zijn type; geen dubbele id's;
   elke `capital` bestaat als `Place`; elke `servesPlace` bestaat.
 

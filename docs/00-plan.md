@@ -62,6 +62,7 @@ De toolchain is dus niet stuk. De **projectstructuur en de workflow** waren stuk
 | 2 | Bron van waarheid + AI | Bestanden in git zijn de enige bron; Rojo synct naar Studio; Studio's **ingebouwde MCP-server** geeft Claude Code ogen en handen in Studio | [ADR-0002](adr/0002-rojo-en-mcp.md) |
 | 3 | Wereldmodel | **Regioborden**: elke regio is een eigen kaartbord met eigen schaal, procedureel opgebouwd uit één geo-dataset | [ADR-0003](adr/0003-regioborden.md) |
 | 4 | Doel fase 1 | Privé test-place op Roblox, gepubliceerd vanuit GitHub Actions via Open Cloud | [ADR-0004](adr/0004-ci-cd-open-cloud.md) |
+| 5 | Landmarks | Herkenningspunten als pure bouwlijst in parts, in git, op vaste hoogteband los van de bordschaal | [ADR-0005](adr/0005-landmarks-als-bouwlijst.md) |
 
 ---
 
@@ -196,6 +197,15 @@ van makkelijk naar moeilijk loopt:
 wat je beheerst komt zelden terug maar verdwijnt niet. `Mastery.pick()` is een pure
 functie met een seedbare RNG, dus volledig te testen.
 
+**Landmarks en weetjes** — elke stad krijgt een gezicht: de Euromast in Rotterdam, de
+Eiffeltoren in Parijs, het Evoluon in Eindhoven. Een silhouet onthoud je eerder dan
+een naam, en vanaf trede 4 (namen verborgen) is dat silhouet precies wat je overhoudt
+om op te varen. Daarnaast een optionele laag achtergrondinformatie in drie
+diepteniveaus — van één zin tot inwonertal, oppervlakte en de verhouding tot
+Nederland — met bron en jaartal erbij. Nooit blokkerend, altijd weg te klikken, en
+verzamelbaar in een weetjesboek.
+
+Details: [07-landmarks-en-weetjes.md](07-landmarks-en-weetjes.md).
 Koppeling aan het Nederlandse curriculum (groep 4 t/m 8): [05-leerlijn.md](05-leerlijn.md).
 
 ---
@@ -229,13 +239,13 @@ stoppen na elke mijlpaal en kijken of het klopt voordat de volgende begint.
 |---|---|---|---|
 | **M0** | De keten | Schone repo, rokit/rojo/lune, CI groen, place op Roblox | Een verse clone -> `rokit install` -> `rojo build` -> place opent in Studio en toont het versienummer op het scherm. CI-artifact downloadbaar. Test-place speelbaar op tablet. |
 | **M1** | Fundament | `Fsm`, `MissionFsm`, `Contract`, `Rng`, `Geo`, effects-patroon, Lune-runner | 25 of meer unit-tests groen, nul Roblox-API in `shared/core/` (geautomatiseerde check) |
-| **M2** | Eerste bezorging | Eindhoven-bord uit data, bestelbus, adres, aankomstcontrole, beloning | Een kind bezorgt drie pakketten zonder uitleg vooraf |
-| **M3** | Kaart en opslag | Kaart-UI met pins, adreskaart, HUD, DataStore save/load | Voortgang overleeft server-restart; kaart werkt op touch |
-| **M4** | Nederland | NL-bord, 12 provincies, hoofdsteden, grote rivieren, mastery-engine | Moeilijkheidsniveau 4 (namen verborgen) is haalbaar en meetbaar |
+| **M2** | Eerste bezorging | Eindhoven-bord uit data, bestelbus, adres, aankomstcontrole, beloning, **Evoluon als eerste landmark** | Een kind bezorgt drie pakketten zonder uitleg vooraf |
+| **M3** | Kaart en opslag | Kaart-UI met pins, adreskaart, HUD, DataStore save/load, **weetjeskaartje laag 1-2 en weetjesboek-skelet** | Voortgang overleeft server-restart; kaart werkt op touch; weetje blokkeert niets |
+| **M4** | Nederland | NL-bord, 12 provincies, hoofdsteden, grote rivieren, mastery-engine, **12 NL-landmarks, `Compare`-module, hoofdstad/regeringszetel** | Moeilijkheidsniveau 4 (namen verborgen) is haalbaar en meetbaar; het Den Haag-missietype werkt |
 | **M5** | Economie | Voertuigen, winkel, prijzen, balans | Een sessie van 20 min geeft een zinvolle upgrade; geen exploit om te farmen zonder kennis |
-| **M6** | Buurlanden | België, Duitsland, Engeland, Frankrijk; luchthaven-transitie; vliegtuig | Grensovergang werkt, taal-hint verschijnt |
-| **M7** | Europa | Europa-bord, talen, vlaggen, rivieren, gebergten als hints | 30 of meer landen met correcte data, gevalideerd door schema-test |
-| **M8** | Wereld | Wereldbord, zeevracht, tijdzones, werelddelen | Wereldroute Eindhoven -> Tokio speelbaar |
+| **M6** | Buurlanden | België, Duitsland, Engeland, Frankrijk; luchthaven-transitie; vliegtuig; **landmark-set en silhouet als navigatiehint** | Grensovergang werkt, taal-hint verschijnt, een kind vindt Parijs op silhouet |
+| **M7** | Europa | Europa-bord, talen, vlaggen, rivieren, gebergten als hints, **Europa-landmarks en weetjes laag 3** | 30 of meer landen met correcte data; elk land heeft minstens één landmark |
+| **M8** | Wereld | Wereldbord, zeevracht, tijdzones, werelddelen, **wereld-landmarks, instelbaar referentieland** | Wereldroute Eindhoven -> Tokio speelbaar |
 | **M9** | Afwerking | Geluid, feedback, telemetrie, ouderrapport, publicatie-afweging | Speelsessie van 30 min zonder crash; besluit over publieke release |
 
 M0 en M1 samen zijn het echte fundament. Alles daarna is content op een werkende basis.
@@ -252,6 +262,8 @@ M0 en M1 samen zijn het echte fundament. Alles daarna is content op een werkende
 | Scope creep (wereld bouwen vóór de eerste bezorging werkt) | hoog | Mijlpaalpoorten met acceptatiecriteria; M2 is één stad |
 | Roblox verandert de toolchain | midden | Versies gepind in `rokit.toml`; CI draait dezelfde pins |
 | Prestaties op tablet | midden | Bord maximaal 2500 studs, labels via `BillboardGui` met `MaxDistance`, part-budget per bord in de bouwlijst-validatie |
+| Landmarks worden een contentberg die de planning opeet | midden | Per landmark een half uur en een part-budget van 40; per mijlpaal een afgebakende set; werk is uitbesteedbaar zodra het eerste landmark het patroon zet |
+| Verouderde of verkeerd gedefinieerde cijfers in weetjes | midden | Elk getal draagt `year` en `source`; `Compare` mengt nooit twee oppervlaktedefinities; unit-test dwingt dat af |
 | Kindveiligheid / privacy | midden | Geen chat, geen vrije tekst, geen PII in DataStore, alleen `UserId` als sleutel |
 
 ---

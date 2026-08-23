@@ -49,7 +49,7 @@ trede 1, zodat een nieuw gebied nooit meteen frustreert.
 | 2 | Naam op de kaart, geen pijl | kaart lezen |
 | 3 | Alleen het adres, namen staan nog op de kaart | naam opzoeken op de kaart |
 | 4 | Alleen het adres, **namen verborgen** | de plaats echt kennen |
-| 5 | Postcode of land plus een hint (taal, vlag, rivier, buurland) | kennis combineren |
+| 5 | Postcode of land plus een hint (taal, vlag, rivier, buurland, **silhouet van een landmark**) | kennis combineren |
 | 6 | Drie pakketten tegelijk, brandstof, deadline | plannen en prioriteren |
 
 Trede 4 is het echte leerdoel. Trede 5 en 6 zijn voor groep 7-8.
@@ -79,6 +79,11 @@ gemiddeld eens per zoveel missies terug, zodat kennis niet wegzakt.
 `Mastery.pick(profile, region, difficulty, rng)` is puur en seedbaar. Twee spelers
 met hetzelfde profiel en dezelfde seed krijgen dezelfde missie — dat maakt de tests
 deterministisch en maakt later een "zelfde route als je vriend"-modus mogelijk.
+
+**Het weetjesboek is het tweede leerkanaal.** Elk bezocht landmark wordt een sticker
+in een album per land. Bladeren door dat album is herhaling die niet als overhoren
+voelt, en de lege plekken zijn een uitnodiging. Zie
+[07-landmarks-en-weetjes.md](07-landmarks-en-weetjes.md).
 
 ---
 
