@@ -7,6 +7,8 @@
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 
+-- New Studio places stream parts. No character ⇒ no focus ⇒ client never sees Van.
+workspace.StreamingEnabled = false
 Players.CharacterAutoLoads = false
 
 Lighting.Ambient = Color3.fromRGB(110, 108, 104)
@@ -22,7 +24,6 @@ end
 
 local root = Instance.new("Folder")
 root.Name = "Wereldpost"
-root.Parent = workspace
 
 local function block(name: string, size: Vector3, cframe: CFrame, color: Color3): Part
 	local p = Instance.new("Part")
@@ -40,7 +41,7 @@ end
 
 -- land / accent / stamp — same palette as the web prototype
 block("Floor", Vector3.new(240, 2, 240), CFrame.new(0, -1, 0), Color3.fromRGB(217, 208, 190))
-block("Van", Vector3.new(6, 3, 10), CFrame.new(0, 1.5, 0), Color3.fromRGB(58, 83, 102))
+local van = block("Van", Vector3.new(6, 3, 10), CFrame.new(0, 1.5, 0), Color3.fromRGB(58, 83, 102))
 
 local goal = block("Goal", Vector3.new(8, 8, 8), CFrame.new(0, 4, -70), Color3.fromRGB(143, 61, 50))
 goal.Material = Enum.Material.Neon
@@ -60,5 +61,16 @@ label.TextSize = 22
 label.TextColor3 = Color3.fromRGB(243, 238, 228)
 label.Text = "DOEL"
 label.Parent = billboard
+
+root:SetAttribute("Ready", true)
+root.Parent = workspace
+
+local function focus(player: Player)
+	player.ReplicationFocus = van
+end
+for _, player in Players:GetPlayers() do
+	focus(player)
+end
+Players.PlayerAdded:Connect(focus)
 
 print("[Wereldpost] slice 1 — vloer, bus, doel. Play, WASD, A = links.")

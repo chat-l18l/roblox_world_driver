@@ -16,7 +16,14 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local root = workspace:WaitForChild("Wereldpost")
-local van = root:WaitForChild("Van") :: Part
+if root:GetAttribute("Ready") ~= true then
+	root:GetAttributeChangedSignal("Ready"):Wait()
+end
+local found = root:WaitForChild("Van", 15)
+if found == nil or not found:IsA("BasePart") then
+	error("[Wereldpost] Van ontbreekt na sync. StreamingEnabled uit? git pull + Play opnieuw.")
+end
+local van = found :: BasePart
 
 local VAN_Y = 1.5
 local CAM_DIST = 28
