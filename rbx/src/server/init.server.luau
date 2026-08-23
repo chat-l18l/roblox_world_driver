@@ -1,11 +1,16 @@
 --!strict
 --[[
-	Slice 1: floor, van, goal. No session FSM yet.
+	Slice 1: floor, van, goal. Server owns the van CFrame.
 	Next slice: overlap with Goal → arrive event, same reducer as src/sim/session.ts.
 ]]
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Lighting = game:GetService("Lighting")
+
+local Shared = ReplicatedStorage:WaitForChild("Shared")
+local Vehicle = require(Shared:WaitForChild("Sim"):WaitForChild("Vehicle"))
 
 workspace.StreamingEnabled = false
 Players.CharacterAutoLoads = false
@@ -16,21 +21,27 @@ Lighting.ClockTime = 14.5
 Lighting.GeographicLatitude = 52
 Lighting.OutdoorAmbient = Color3.fromRGB(140, 138, 132)
 
-for _, name in { "Baseplate", "SpawnLocation" } do
-	local inst = workspace:FindFirstChild(name)
-	if inst then
+for _, inst in workspace:GetChildren() do
+	if inst.Name ~= "Wereldpost" and not inst:IsA("Camera") and not inst:IsA("Terrain") then
 		inst:Destroy()
 	end
-end
-local leftoverSpawn = workspace:FindFirstChildOfClass("SpawnLocation")
-if leftoverSpawn then
-	leftoverSpawn:Destroy()
 end
 
 local existing = workspace:FindFirstChild("Wereldpost")
 if existing then
 	existing:Destroy()
 end
+
+local remotes = ReplicatedStorage:FindFirstChild("Remotes")
+if remotes then
+	remotes:Destroy()
+end
+remotes = Instance.new("Folder")
+remotes.Name = "Remotes"
+remotes.Parent = ReplicatedStorage
+local driveRemote = Instance.new("RemoteEvent")
+driveRemote.Name = "DriveInput"
+driveRemote.Parent = remotes
 
 local root = Instance.new("Folder")
 root.Name = "Wereldpost"
@@ -74,6 +85,35 @@ label.Parent = billboard
 root:SetAttribute("Ready", true)
 root.Parent = workspace
 
+local VAN_Y = 1.5
+local state = Vehicle.create(0, 0)
+local lastInput: Vehicle.DriveInput = { throttle = 0, steer = 0 }
+
+local function clamp1(n: number): number
+	if n < -1 then
+		return -1
+	end
+	if n > 1 then
+		return 1
+	end
+	return n
+end
+
+driveRemote.OnServerEvent:Connect(function(_player: Player, throttle: unknown, steer: unknown)
+	if typeof(throttle) ~= "number" or typeof(steer) ~= "number" then
+		return
+	end
+	lastInput = {
+		throttle = clamp1(throttle :: number),
+		steer = clamp1(steer :: number),
+	}
+end)
+
+RunService.Heartbeat:Connect(function(dt: number)
+	state = Vehicle.step(state, lastInput, dt)
+	van.CFrame = Vehicle.cframeAt(state, VAN_Y)
+end)
+
 local function hookPlayer(player: Player)
 	player.ReplicationFocus = van
 	player.CharacterAdded:Connect(function(character)
@@ -88,4 +128,4 @@ for _, player in Players:GetPlayers() do
 end
 Players.PlayerAdded:Connect(hookPlayer)
 
-print("[Wereldpost] slice 1 — vloer, bus, doel. Play, WASD, A = links.")
+print("[Wereldpost] slice 1 — klik het 3D-venster, WASD, A = links, rij naar DOEL.")
