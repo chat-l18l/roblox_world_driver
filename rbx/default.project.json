@@ -8,6 +8,12 @@
         "HttpEnabled": true
       }
     },
+    "Players": {
+      "$className": "Players",
+      "$properties": {
+        "CharacterAutoLoads": false
+      }
+    },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "Shared": {
@@ -22,9 +28,6 @@
     },
     "StarterPlayer": {
       "$className": "StarterPlayer",
-      "$properties": {
-        "CharacterAutoLoads": false
-      },
       "StarterPlayerScripts": {
         "$className": "StarterPlayerScripts",
         "Client": {
