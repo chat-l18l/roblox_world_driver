@@ -59,10 +59,10 @@ Check na Accept, vóór Play: **View → Explorer**
 
 Zie je die drie: Accept is gelukt. Daarna Play. `rojo serve` moet open blijven.
 
-Explorer nog leeg na Accept:
+Explorer nog leeg na Accept, of Rojo klaagt over HttpService:
 
-1. **View → Output** — rode regels van Rojo.
-2. **Home → Game Settings → Security → Allow HTTP Requests**.
+1. **Home → Game Settings → Security → Allow HTTP Requests** — Studio laat Rojo deze property niet zetten. Niet in de Explorer forceren.
+2. **View → Output** — rode regels van Rojo.
 3. Plugins beheren → Rojo → **Script Injection** aan. Studio herstarten, opnieuw Connect.
 
 Je ziet een zandkleurige vloer, een donker busje, een rood DOEL. WASD. A draait de neus naar links op het scherm.

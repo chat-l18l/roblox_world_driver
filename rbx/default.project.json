@@ -2,12 +2,6 @@
   "name": "Wereldpost",
   "tree": {
     "$className": "DataModel",
-    "HttpService": {
-      "$className": "HttpService",
-      "$properties": {
-        "HttpEnabled": true
-      }
-    },
     "Players": {
       "$className": "Players",
       "$properties": {
