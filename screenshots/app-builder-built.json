@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Wereldpost",
+      "hasCanvas": false,
+      "bodyTextLen": 1300,
+      "bodyTextHash": "0d89a26d618a25b233faffa7358e37fe14c46658bccd6f3e567d953669592392",
+      "bodyTextPrefix": "W Wereldpost Overzicht Rijden Leerlijn Atelier ATELIER · SLICE 0",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Wereldpost",
+      "hasCanvas": false,
+      "bodyTextLen": 1300,
+      "bodyTextHash": "a3ae5a2892fdc0d88cb0a1cb6a9e2a8f03829c247ced18b06d3276c4a3a05b63",
+      "bodyTextPrefix": "W Wereldpost ATELIER · SLICE 0 Leer de wereld kennen als koerier",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
