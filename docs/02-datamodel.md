@@ -139,10 +139,24 @@ Herkenningspunten per stad of land. Ontwerp en catalogus staan in
     builtYear = 1889,
     model = "parts:eiffel",      -- of "asset:landmarks/sagrada.rbxmx"
     silhouette = "eiffel",       -- 2D-icoon voor kaart en weetjesboek
-    rightsNote = "Eigen gestileerde vorm; bouwwerk uit 1889, panoramavrijheid in FR.",
+    material = { current = "smeedijzer", since = 1889 },
+    represents = nil,            -- alleen als het iets anders voorstelt dan zichzelf
+    rightsNote = "Eigen gestileerde vorm; bouwwerk uit 1889.",
     facts = { ... },             -- zie Fact
 }
 ```
+
+`material` en `represents` staan er los van de feiten omdat ze zo vaak gevraagd
+worden dat ze een vaste plek verdienen — en omdat het antwoord dubbel kan zijn:
+
+```lua
+-- be-brussel-atomium
+material   = { original = "aluminium", current = "roestvrij staal", changedIn = 2006 },
+represents = "de eenheidscel van een ijzerkristal, ongeveer 165 miljard keer vergroot",
+```
+
+Een model van ijzer dat niet van ijzer gemaakt is: dat is het soort weetje waar deze
+laag voor bestaat.
 
 `heightM` is de echte hoogte en wordt **niet** gebruikt als bouwmaat — landmarks
 worden op een vaste hoogteband gerenderd zodat ze op elk bord leesbaar zijn (zie
@@ -155,10 +169,15 @@ onderlinge verhouding, en is zelf een weetje.
 {
     text = "De Eiffeltoren was bij de bouw in 1889 het hoogste bouwwerk ter wereld.",
     level = 3,                   -- 1 = kijken, 2 = kerncijfers, 3 = doorlezen
+    category = "record",         -- betekenis | materiaal | formaat | bouwjaar | waarom | record
     source = "wikidata:Q243",
     year = 2025,
 }
 ```
+
+`category` houdt de weetjes onderling vergelijkbaar en maakt het schrijven ervan een
+invuloefening in plaats van een creatieve worsteling. Zie
+[07-landmarks-en-weetjes.md](07-landmarks-en-weetjes.md), paragraaf 4.1.
 
 `source` en `year` zijn verplicht op niveau 2 en 3 en worden ook echt getoond. Een
 kind dat leert dat cijfers een herkomst en een datum hebben, leert iets dat langer

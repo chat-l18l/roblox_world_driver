@@ -40,9 +40,10 @@ overdreven groot worden weergegeven.
    `$path`, voor het enkele geval dat parts echt tekortschieten. Geüploade meshes
    krijgen een regel in `assets/MANIFEST.md` met naam, asset-id, herkomst en datum.
 5. **Geen Toolbox-assets.**
-6. Elk landmark heeft een `rightsNote`. Moderne bouwwerken met actief gehandhaafde
-   beeldrechten (het Atomium is het schoolvoorbeeld) worden vermeden of nadrukkelijk
-   geabstraheerd.
+6. **Beroemde bouwwerken worden niet vermeden.** Ze horen in de les. De vorm is altijd
+   eigen werk in parts, nooit een overgenomen model, foto of bouwtekening — wat regel
+   1 toch al afdwingt. `rightsNote` blijft bestaan als korte herkomstnotitie (bouwjaar,
+   ontwerper), niet als juridisch voorbehoud.
 
 ## Gevolgen
 
@@ -64,6 +65,15 @@ overdreven groot worden weergegeven.
   Tegenwicht: het is één keer per landmark, en het resultaat is herbruikbaar.
 - Een part-budget van 40 is een echte beperking. Als hij structureel knelt, is dat
   een aanleiding om deze ADR te herzien, niet om er stilzwijgend overheen te gaan.
+
+## Noot bij de rechtenvraag
+
+Een eerdere versie van deze ADR raadde het Atomium af wegens beeldrechten. Dat was op
+verouderde informatie gebaseerd. België kende tot 2016 als een van de weinige
+EU-landen geen panoramavrijheid, en juist het Atomium was de aanleiding om haar in te
+voeren: de wet van 27 juni 2016 trad op 15 juli 2016 in werking en staat vrije
+afbeelding toe van werken die permanent in de openbare ruimte staan. Alle landen in
+de startcatalogus kennen panoramavrijheid. Het Atomium staat in de catalogus.
 
 ## Overwogen alternatieven
 

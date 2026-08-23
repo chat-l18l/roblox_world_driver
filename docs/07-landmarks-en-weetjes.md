@@ -88,19 +88,26 @@ Bij de eerste bordwissel legt een korte animatie dat verschil uit — ook leerst
 
 ### 2.2 Rechten
 
-Een eigen, gestileerde low-poly-vorm van een gebouw is geen reproductie van een foto
-of een bouwtekening, en de landen waar we mee beginnen kennen panoramavrijheid. Toch
-twee praktische regels:
+**Beroemde bouwwerken horen in de les. Daar is geen discussie over.** Een eigen,
+gestileerde low-poly-vorm is geen reproductie van een foto of een bouwtekening, en
+alle landen waar we mee beginnen kennen panoramavrijheid.
 
-- **Moderne bouwwerken met actief gehandhaafde beeldrechten vermijden of abstraheren.**
-  Het Atomium in Brussel is het schoolvoorbeeld. Kies dan een ander herkenningspunt
-  voor die stad (Grote Markt) of maak de vorm nadrukkelijk abstract.
+Het Atomium wordt vaak als waarschuwing genoemd, maar dat verhaal is verouderd:
+België kende tot 2016 als een van de weinige EU-landen géén panoramavrijheid, en
+juist die zaak was de aanleiding om haar in te voeren. Sinds de wet van 27 juni 2016,
+in werking op 15 juli 2016, mogen werken die permanent in de openbare ruimte staan
+vrij worden afgebeeld. Het Atomium staat gewoon in de catalogus.
+
+Twee praktische regels blijven staan, en die gaan over vakmanschap, niet over angst:
+
+- **Altijd een eigen vorm, nooit een overgenomen model, foto of bouwtekening.** Dat
+  is toch al wat ADR-0005 voorschrijft: parts in git.
 - **Geen assets uit de Roblox Toolbox.** Herkomst en licentie zijn daar niet te
-  verantwoorden, en het botst met de rest van het licentiebeleid in
+  verantwoorden, en het botst met het licentiebeleid in
   [02-datamodel.md](02-datamodel.md).
 
-Elk landmark heeft een veld `rightsNote` waarin staat waarom het veilig is, of wat er
-bewust anders is gedaan.
+`rightsNote` per landmark blijft bestaan, maar als korte notitie van herkomst en
+bouwjaar — nuttig voor de weetjes — niet als juridisch voorbehoud.
 
 ---
 
@@ -127,9 +134,22 @@ uit de oppervlaktetabel.
 
 **M6 — buurlanden**
 
-Fernsehturm en Brandenburger Tor (Berlijn), Kölner Dom (Keulen), Eiffeltoren en Arc
-de Triomphe (Parijs), Mont Saint-Michel, Elizabeth Tower en Tower Bridge (Londen),
-Stonehenge, Belfort (Brugge), Grote Markt (Brussel).
+Atomium en Grote Markt (Brussel), Belfort (Brugge), Fernsehturm en Brandenburger Tor
+(Berlijn), Kölner Dom (Keulen), Eiffeltoren en Arc de Triomphe (Parijs), Mont
+Saint-Michel, Elizabeth Tower en Tower Bridge (Londen), Stonehenge.
+
+Het Atomium is meteen het beste voorbeeld van wat de weetjeslaag moet doen. Negen
+bollen van 18 meter, 102 meter hoog, gebouwd voor de wereldtentoonstelling van 1958.
+Het stelt de eenheidscel van een **ijzerkristal** voor, ongeveer 165 miljard keer
+uitvergroot. En dan de vraag die elk kind stelt: waar is het van gemaakt?
+
+> Het Atomium is een model van **ijzer**, maar het is niet van ijzer gemaakt.
+> De bollen waren tot 2005 bekleed met **aluminium**. Bij de grote opknapbeurt van
+> 2004 tot 2006 is dat vervangen door **roestvrij staal**, omdat dat niet roest.
+> Sinds 18 februari 2006 blinkt het weer.
+
+Dat is precies het soort dubbele antwoord waar de laag-3-weetjes voor bestaan: het
+klopt allebei, het is verrassend, en je onthoudt het.
 
 **M7 — Europa**
 
@@ -171,7 +191,32 @@ Vergelijking, context, bron en jaartal.
 Die laatste regel met bron en jaartal staat er altijd. Een kind dat leert dat cijfers
 een herkomst en een datum hebben, leert iets dat langer meegaat dan de topografie.
 
-### 4.1 Wanneer verschijnt het
+### 4.1 Vaste weetjescategorieën
+
+Om te voorkomen dat de weetjes een willekeurige verzameling worden, heeft elk feit
+een `category`. Elk landmark streeft naar één feit per categorie; dat maakt de
+kaartjes onderling vergelijkbaar en het maakt het schrijfwerk een invuloefening in
+plaats van een creatieve worsteling.
+
+| Categorie | Vraag die het beantwoordt | Voorbeeld |
+|---|---|---|
+| `betekenis` | Wat stelt het voor? | Het Atomium is een ijzerkristal, 165 miljard keer vergroot |
+| `materiaal` | Waar is het van gemaakt? | Eerst aluminium, sinds 2006 roestvrij staal |
+| `formaat` | Hoe groot is het? | 102 meter hoog, negen bollen van 18 meter |
+| `bouwjaar` | Wanneer en waarvoor? | 1958, voor de wereldtentoonstelling in Brussel |
+| `waarom` | Waarom staat het er nog? | Het was bedoeld voor zes maanden en is nooit gesloopt |
+| `record` | Wat is er bijzonder aan? | De Eiffeltoren was in 1889 het hoogste bouwwerk ter wereld |
+
+De categorie `materiaal` is er op nadrukkelijk verzoek, en terecht: waar iets van
+gemaakt is, is voor een kind vaak concreter dan wanneer het gebouwd is. Steen,
+staal, glas, beton, baksteen, hout — het verbindt aardrijkskunde met techniek, en
+het geeft verrassingen zoals het Atomium dat een ijzermodel is zonder ijzer.
+
+Daarom hebben `Landmark`-records twee eigen velden naast de feiten: `material`
+(waar het van gemaakt is, met de wijziging erbij als die er is) en `represents`
+(wat het voorstelt, als dat niet zichzelf is).
+
+### 4.2 Wanneer verschijnt het
 
 - **Bij aankomst**: een klein kaartje rechtsonder, "nieuw weetje ontgrendeld", met
   een knop. Verdwijnt vanzelf. Nooit een pop-up over het scherm.
