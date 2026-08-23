@@ -12,6 +12,36 @@
       "$className": "Workspace",
       "$properties": {
         "StreamingEnabled": false
+      },
+      "Wereldpost": {
+        "$className": "Folder",
+        "Floor": {
+          "$className": "Part",
+          "$properties": {
+            "Anchored": true,
+            "Size": [240, 2, 240],
+            "Position": [0, -1, 0],
+            "Color": [0.851, 0.816, 0.745]
+          }
+        },
+        "Van": {
+          "$className": "Part",
+          "$properties": {
+            "Anchored": true,
+            "Size": [6, 3, 10],
+            "Position": [0, 1.5, 0],
+            "Color": [0.227, 0.325, 0.4]
+          }
+        },
+        "Goal": {
+          "$className": "Part",
+          "$properties": {
+            "Anchored": true,
+            "Size": [8, 8, 8],
+            "Position": [0, 4, -70],
+            "Color": [0.561, 0.239, 0.196]
+          }
+        }
       }
     },
     "ReplicatedStorage": {

@@ -1,7 +1,8 @@
 --!strict
 --[[
 	Slice 1: floor, van, goal. Server owns the van CFrame.
-	Next slice: overlap with Goal → arrive event, same reducer as src/sim/session.ts.
+	World parts also live in default.project.json so they show up after Connect,
+	before Play.
 ]]
 
 local Players = game:GetService("Players")
@@ -27,11 +28,6 @@ for _, inst in workspace:GetChildren() do
 	end
 end
 
-local existing = workspace:FindFirstChild("Wereldpost")
-if existing then
-	existing:Destroy()
-end
-
 local remotes = ReplicatedStorage:FindFirstChild("Remotes")
 if remotes then
 	remotes:Destroy()
@@ -43,10 +39,7 @@ local driveRemote = Instance.new("RemoteEvent")
 driveRemote.Name = "DriveInput"
 driveRemote.Parent = remotes
 
-local root = Instance.new("Folder")
-root.Name = "Wereldpost"
-
-local function block(name: string, size: Vector3, cframe: CFrame, color: Color3): Part
+local function block(parent: Instance, name: string, size: Vector3, cframe: CFrame, color: Color3): Part
 	local p = Instance.new("Part")
 	p.Name = name
 	p.Size = size
@@ -56,34 +49,56 @@ local function block(name: string, size: Vector3, cframe: CFrame, color: Color3)
 	p.Anchored = true
 	p.TopSurface = Enum.SurfaceType.Smooth
 	p.BottomSurface = Enum.SurfaceType.Smooth
-	p.Parent = root
+	p.Parent = parent
 	return p
 end
 
-block("Floor", Vector3.new(240, 2, 240), CFrame.new(0, -1, 0), Color3.fromRGB(217, 208, 190))
-local van = block("Van", Vector3.new(6, 3, 10), CFrame.new(0, 1.5, 0), Color3.fromRGB(58, 83, 102))
+local function asPart(inst: Instance?): Part?
+	if inst and inst:IsA("Part") then
+		return inst
+	end
+	return nil
+end
 
-local goal = block("Goal", Vector3.new(8, 8, 8), CFrame.new(0, 4, -70), Color3.fromRGB(143, 61, 50))
+local root = workspace:FindFirstChild("Wereldpost")
+if not root then
+	root = Instance.new("Folder")
+	root.Name = "Wereldpost"
+	root.Parent = workspace
+end
+
+local floor = asPart(root:FindFirstChild("Floor"))
+	or block(root, "Floor", Vector3.new(240, 2, 240), CFrame.new(0, -1, 0), Color3.fromRGB(217, 208, 190))
+local van = asPart(root:FindFirstChild("Van"))
+	or block(root, "Van", Vector3.new(6, 3, 10), CFrame.new(0, 1.5, 0), Color3.fromRGB(58, 83, 102))
+local goal = asPart(root:FindFirstChild("Goal"))
+	or block(root, "Goal", Vector3.new(8, 8, 8), CFrame.new(0, 4, -70), Color3.fromRGB(143, 61, 50))
+
+floor.Anchored = true
+van.Anchored = true
+goal.Anchored = true
 goal.Material = Enum.Material.Neon
+van.CFrame = CFrame.new(0, 1.5, 0)
 
-local billboard = Instance.new("BillboardGui")
-billboard.Name = "Label"
-billboard.Size = UDim2.fromOffset(160, 36)
-billboard.StudsOffset = Vector3.new(0, 6, 0)
-billboard.AlwaysOnTop = true
-billboard.Parent = goal
+if not goal:FindFirstChild("Label") then
+	local billboard = Instance.new("BillboardGui")
+	billboard.Name = "Label"
+	billboard.Size = UDim2.fromOffset(160, 36)
+	billboard.StudsOffset = Vector3.new(0, 6, 0)
+	billboard.AlwaysOnTop = true
+	billboard.Parent = goal
 
-local label = Instance.new("TextLabel")
-label.BackgroundTransparency = 1
-label.Size = UDim2.fromScale(1, 1)
-label.Font = Enum.Font.SourceSansBold
-label.TextSize = 22
-label.TextColor3 = Color3.fromRGB(243, 238, 228)
-label.Text = "DOEL"
-label.Parent = billboard
+	local label = Instance.new("TextLabel")
+	label.BackgroundTransparency = 1
+	label.Size = UDim2.fromScale(1, 1)
+	label.Font = Enum.Font.SourceSansBold
+	label.TextSize = 22
+	label.TextColor3 = Color3.fromRGB(243, 238, 228)
+	label.Text = "DOEL"
+	label.Parent = billboard
+end
 
 root:SetAttribute("Ready", true)
-root.Parent = workspace
 
 local VAN_Y = 1.5
 local state = Vehicle.create(0, 0)
