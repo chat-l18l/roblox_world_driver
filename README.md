@@ -71,3 +71,10 @@ Bewerk **nooit** scripts in Roblox Studio — Rojo overschrijft ze. Dat is de be
 De eerste opzet (een web-app met een Roblox-mapje eraan) staat als tag
 `archive/grok` en branch `archive/grok-main`. Zie
 [ADR-0001](docs/adr/0001-repo-herstart.md) voor waarom die is losgelaten.
+
+## Ideeën voor later
+
+Niet-toegezegde ideeën staan geparkeerd in
+[`docs/08-ideeen-backlog.md`](docs/08-ideeen-backlog.md), met per idee de afweging
+tegen de vier ontwerpprincipes. Een idee verhuist pas naar de roadmap als het een
+mijlpaal en een acceptatiecriterium heeft.
